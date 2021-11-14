@@ -10,6 +10,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(this, R.id.nav_host_fragment)
     }
 }
