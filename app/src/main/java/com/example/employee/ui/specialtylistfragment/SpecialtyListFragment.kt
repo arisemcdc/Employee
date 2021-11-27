@@ -7,34 +7,53 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.employee.Adapters.SpecialtyListAdaapter
 import com.example.employee.R
+import com.example.employee.data.response.Specialty
+import kotlinx.android.synthetic.main.specialty_list_fragment.*
 import kotlinx.android.synthetic.main.specialty_list_fragment.view.*
 
-class SpecialtyListFragment : Fragment() {
+class SpecialtyListFragment : Fragment(), SpecialtyListAdaapter.Listener {
 
     companion object {
         fun newInstance() = SpecialtyListFragment()
     }
 
     private lateinit var viewModel: SpecialtyListViewModel
+    lateinit var specialtyListAdaapter: SpecialtyListAdaapter
+    lateinit var specialties:List<Specialty>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this).get(SpecialtyListViewModel::class.java)
+       viewModel = ViewModelProvider(this).get(SpecialtyListViewModel::class.java)
         val root = inflater.inflate(R.layout.specialty_list_fragment, container, false)
-        viewModel.employeesInfo.observe(viewLifecycleOwner, Observer {
-            root.responseTextView.setText(viewModel.employeesInfo.value.toString())
-        })
+        root.specialtyListRecyclerView.layoutManager = LinearLayoutManager(context)
+       /* specialties = viewModel.convertSpecialtyClass(viewModel.listResponse.value!!)*/
+        /*viewModel.specialties.observe(viewLifecycleOwner, Observer {
+           specialtyListAdaapter = SpecialtyListAdaapter(it, this)
+           specialtyListRecyclerView.adapter = specialtyListAdaapter
+        })*/
+        viewModel.specialtyList.observe(viewLifecycleOwner, Observer {
+          specialtyListAdaapter = SpecialtyListAdaapter(it, this)
+          specialtyListRecyclerView.adapter = specialtyListAdaapter
+       })
+        specialtyListAdaapter = SpecialtyListAdaapter(specialties, this)
+        specialtyListRecyclerView.adapter = specialtyListAdaapter
         return root
     }
 
-  /*  override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SpecialtyListViewModel::class.java)
-        viewModel.employeesInfo.observe(viewLifecycleOwner, Observer {
+    override fun onClickDay(specialty: Specialty) {
 
-        })
-    }*/
+    }
+
+    /*  override fun onActivityCreated(savedInstanceState: Bundle?) {
+          super.onActivityCreated(savedInstanceState)
+          viewModel = ViewModelProvider(this).get(SpecialtyListViewModel::class.java)
+          viewModel.employeesInfo.observe(viewLifecycleOwner, Observer {
+
+          })
+      }*/
 }
