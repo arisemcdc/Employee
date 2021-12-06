@@ -9,12 +9,23 @@
         android:id="@+id/specialtyListFragment"
         android:name="com.example.employee.ui.specialtylistfragment.SpecialtyListFragment"
         android:label="specialty_list_fragment"
-        tools:layout="@layout/specialty_list_fragment" />
+        tools:layout="@layout/specialty_list_fragment" >
+        <action
+            android:id="@+id/action_specialtyListFragment_to_employeesListFragment"
+            app:destination="@id/employeesListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/employeesListFragment"
         android:name="com.example.employee.ui.employeeslistfragment.EmployeesListFragment"
         android:label="employees_list_fragment"
-        tools:layout="@layout/employees_list_fragment" />
+        tools:layout="@layout/employees_list_fragment" >
+        <action
+            android:id="@+id/action_employeesListFragment_to_detailEmployeeInfoFragment"
+            app:destination="@id/detailEmployeeInfoFragment" />
+        <argument
+            android:name="specialtyId"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/detailEmployeeInfoFragment"
         android:name="com.example.employee.ui.detailemployeeinfofragment.DetailEmployeeInfoFragment"

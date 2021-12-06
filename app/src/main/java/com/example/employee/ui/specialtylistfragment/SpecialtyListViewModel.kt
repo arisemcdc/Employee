@@ -40,15 +40,27 @@ class SpecialtyListViewModel : ViewModel() {
         }
     }*/
 
-    val specialtyList = Transformations.map(listResponse) {
+   /* val specialtyList = Transformations.map(listResponse) {
         it.flatMap {
             it.specialty.map {
                 it.name
             }
         }
-    }
+    }*/
+    val specialtyList = listResponse.value.orEmpty()
+           .flatMap { it.specialty }
+           .distinctBy { it.specialtyId }
+
+    /*fun makeSpecialtyList()  {
+        val listRezult = listResponse.value.orEmpty()
+                .flatMap  { it.specialty }
+                .distinctBy { it.specialtyId }
+
+
+    }*/
     
     }
+
 
     /*fun convertSpecialtyClass(response: List <Response>): List <Specialty>{
         val newList = mutableListOf<Specialty>()
@@ -62,4 +74,4 @@ class SpecialtyListViewModel : ViewModel() {
     fun convertSpecialtyClass(listResponse: <Response>) = listResponse.map {
 
     }*/
-}
+

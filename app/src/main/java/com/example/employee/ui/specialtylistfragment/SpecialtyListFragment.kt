@@ -31,21 +31,24 @@ class SpecialtyListFragment : Fragment(), SpecialtyListAdaapter.Listener {
        viewModel = ViewModelProvider(this).get(SpecialtyListViewModel::class.java)
         val root = inflater.inflate(R.layout.specialty_list_fragment, container, false)
         root.specialtyListRecyclerView.layoutManager = LinearLayoutManager(context)
-       /* specialties = viewModel.convertSpecialtyClass(viewModel.listResponse.value!!)*/
-        /*viewModel.specialties.observe(viewLifecycleOwner, Observer {
+      /* *//* specialties = viewModel.convertSpecialtyClass(viewModel.listResponse.value!!)*//*
+        *//*viewModel.specialties.observe(viewLifecycleOwner, Observer {
            specialtyListAdaapter = SpecialtyListAdaapter(it, this)
            specialtyListRecyclerView.adapter = specialtyListAdaapter
-        })*/
+        })*//*
         viewModel.specialtyList.observe(viewLifecycleOwner, Observer {
           specialtyListAdaapter = SpecialtyListAdaapter(it, this)
           specialtyListRecyclerView.adapter = specialtyListAdaapter
        })
         specialtyListAdaapter = SpecialtyListAdaapter(specialties, this)
-        specialtyListRecyclerView.adapter = specialtyListAdaapter
+        specialtyListRecyclerView.adapter = specialtyListAdaapter*/
+        specialtyListAdaapter = SpecialtyListAdaapter(viewModel.specialtyList,this)
+
         return root
     }
 
     override fun onClickDay(specialty: Specialty) {
+        val action = SpecialtyListFragmentDirections.actionspecialtyListFragmenttoemployeesListFragment(specialty.name)
 
     }
 

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.specialty_item.view.*
 
 class SpecialtyListAdaapter (val specialtyList: List<Specialty>, val listener: Listener): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     interface Listener {
-        fun onClickDay(specialty: Specialty)
+        fun onClickSpecialty(specialty: Specialty)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -20,6 +20,10 @@ class SpecialtyListAdaapter (val specialtyList: List<Specialty>, val listener: L
                 LayoutInflater.from(parent.context)
                         .inflate(R.layout.specialty_item, parent, false)
         )
+        viewHolder.itemView.setOnClickListener {
+            if (viewHolder.specialty != null)
+                listener.onClickSpecialty(viewHolder.specialty!!)
+        }
         return viewHolder
     }
 
