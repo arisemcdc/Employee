@@ -29,11 +29,16 @@ class SpecialtyListViewModel : ViewModel() {
 class SpecialtyListViewModel : ViewModel() {
     val employeesInfo = liveData {
         val data = Employee.repository.getEmployeesInfo()
+                .response
+                .flatMap { it.specialty }
+                .distinctBy { it.specialtyId }
+
+
         emit(data)
     }
-    val listResponse = Transformations.map(employeesInfo) {
+    /*val listResponse = Transformations.map(employeesInfo) {
         it.response
-    }
+    }*/
     /*val specialtyList = Transformations.map(listResponse) {
         it.forEach {
             val specialty = it.specialty
@@ -47,6 +52,8 @@ class SpecialtyListViewModel : ViewModel() {
             }
         }
     }*/
+   /*val specialtyList = Transformations.map(listResponse.flatMap { it.specialty
+   })*/
     val specialtyList = listResponse.value.orEmpty()
            .flatMap { it.specialty }
            .distinctBy { it.specialtyId }

@@ -30,6 +30,9 @@ class EmployeesListAdapter (val employeesList: List<Response>, val listener: Lis
     override fun getItemCount(): Int {
         return employeesList.size
     }
+    fun update(){
+        notifyDataSetChanged()
+    }
 }
 class EmployeeHolder(itemView: View): RecyclerView.ViewHolder(itemView){
     var employee: Response? = null

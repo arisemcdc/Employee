@@ -10,7 +10,7 @@ import com.example.employee.R
 import com.example.employee.data.response.Specialty
 import kotlinx.android.synthetic.main.specialty_item.view.*
 
-class SpecialtyListAdaapter (val specialtyList: List<Specialty>, val listener: Listener): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class SpecialtyListAdapter (val specialtyList: List<Specialty>, val listener: Listener): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     interface Listener {
         fun onClickSpecialty(specialty: Specialty)
     }
