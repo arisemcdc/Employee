@@ -2,19 +2,38 @@ package com.example.employee.ui.specialtylistfragment
 
 import com.example.employee.Employee
 import com.example.employee.data.Repository.Repository
-import com.example.employee.interfaces.MyInterface
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.CoroutineContext
 
-class SpecialtyListPresenter (private val repository: Repository): MyInterface.Presenter {
-    private val fragment: SpecialtyListFragment?=null
-    override fun getData() {
-        val data = Employee.repository.getEmployeesInfo()
-                .response
-                .flatMap { it.specialty }
-                .distinctBy { it.specialtyId }
+class SpecialtyListPresenter (private val repository: Repository): CoroutineScope {
 
+    private var view: SpecialtyView?=null
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.IO
 
-        emit(data)
-        fragment.updateView(data)
+    fun bind(view: SpecialtyView) {
+        this.view = view
     }
+
+    fun unbind() {
+        this.view = null
+    }
+
+    fun loadData() {
+        launch {
+            val data = Employee.repository.getEmployeesInfo()
+                    .response
+                    .flatMap { it.specialty }
+                    .distinctBy { it.specialtyId }
+            withContext(Dispatchers.Main) {
+                view?.updateView(data)
+            }
+        }
+    }
+
+
     //как ее в suspend превратить?
 }

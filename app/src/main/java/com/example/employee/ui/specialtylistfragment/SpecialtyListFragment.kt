@@ -2,32 +2,43 @@ package com.example.employee.ui.specialtylistfragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.employee.Adapters.SpecialtyListAdapter
+import com.example.employee.Adapters.SpecialtiesAdapter
 import com.example.employee.R
 import com.example.employee.data.Repository.Repository
 import com.example.employee.data.response.Specialty
-import com.example.employee.interfaces.MyInterface
-import kotlinx.android.synthetic.main.specialty_list_fragment.*
 import kotlinx.android.synthetic.main.specialty_list_fragment.view.*
-class SpecialtyListFragment: Fragment(), MyInterface.specialtyView {
+class SpecialtyListFragment: Fragment(R.layout.specialty_list_fragment), SpecialtyView {
+
     private val presenter = SpecialtyListPresenter(Repository())
-    lateinit var specialtyListAdapter: SpecialtyListAdapter
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        val root = inflater.inflate(R.layout.specialty_list_fragment, container, false)
-        root.specialtyListRecyclerView.layoutManager = LinearLayoutManager(context)
-        updateView()
-        return root
+    private lateinit var specialtiesAdapter: SpecialtiesAdapter
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        presenter.bind(this)
+        initView(view)
+        presenter.loadData()
     }
 
-    override fun updateView() {
-        specialtyListAdapter = SpecialtyListAdapter(presenter.getData(), this)
+    override fun updateView(specialties: List<Specialty>) {
+        specialtiesAdapter.updateList(specialties)
+    }
+
+    private fun initView(view: View) {
+        view.specialtyListRecyclerView.layoutManager = LinearLayoutManager(context)
+        val listener = object : SpecialtiesAdapter.Listener{
+            override fun onClickSpecialty(specialty: Specialty) {
+            }
+        }
+        specialtiesAdapter = SpecialtiesAdapter(listener)
+        view.specialtyListRecyclerView.adapter = specialtiesAdapter
+    }
+
+    override fun onDestroyView() {
+        presenter.unbind()
+        super.onDestroyView()
     }
 }
 

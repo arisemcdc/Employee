@@ -1,16 +1,17 @@
 package com.example.employee.Adapters
 
-import android.location.GnssAntennaInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.employee.R
 import com.example.employee.data.response.Specialty
 import kotlinx.android.synthetic.main.specialty_item.view.*
 
-class SpecialtyListAdapter (val specialtyList: List<Specialty>, val listener: Listener): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class SpecialtiesAdapter (val listener: Listener): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+
+    private var specialties: List<Specialty> = emptyList()
+
     interface Listener {
         fun onClickSpecialty(specialty: Specialty)
     }
@@ -29,12 +30,18 @@ class SpecialtyListAdapter (val specialtyList: List<Specialty>, val listener: Li
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is SpecialtyHolder)
-            holder.specialty = specialtyList[position]
+            holder.specialty = specialties[position]
     }
 
     override fun getItemCount(): Int {
-        return specialtyList.size
+        return specialties.size
     }
+
+    fun updateList(specialties: List<Specialty>) {
+        this.specialties = specialties
+        notifyDataSetChanged()
+    }
+
 }
 class SpecialtyHolder(itemView: View): RecyclerView.ViewHolder(itemView){
     var specialty: Specialty? = null
