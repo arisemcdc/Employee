@@ -3,6 +3,7 @@ package com.example.employee.ui.specialtylistfragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.employee.Adapters.SpecialtiesAdapter
 import com.example.employee.R
@@ -30,6 +31,8 @@ class SpecialtyListFragment: Fragment(R.layout.specialty_list_fragment), Special
         view.specialtyListRecyclerView.layoutManager = LinearLayoutManager(context)
         val listener = object : SpecialtiesAdapter.Listener{
             override fun onClickSpecialty(specialty: Specialty) {
+                val action = SpecialtyListFragmentDirections.actionSpecialtyListFragmentToEmployeesListFragment(specialty.specialtyId)
+                findNavController().navigate(action)
             }
         }
         specialtiesAdapter = SpecialtiesAdapter(listener)

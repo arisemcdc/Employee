@@ -33,7 +33,7 @@ class EmployeesListPresenter (private val repository: Repository): CoroutineScop
                     .response
                     .filter {
                         it.specialty.any {
-                            it.specialtyId == 101
+                            it.specialtyId == _specialtyId
                         }
                     }
                    /* .distinctBy { it.specialty}*/

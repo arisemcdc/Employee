@@ -25,6 +25,7 @@ class EmployeesListFragment : Fragment(R.layout.employees_list_fragment), Employ
 
         presenter.bind(this)
         initView(view)
+        presenter.setSpecialtyId(args.specialtyId)
         presenter.loadData()
     }
 
