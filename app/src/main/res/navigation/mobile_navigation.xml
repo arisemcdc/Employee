@@ -24,7 +24,7 @@
             app:destination="@id/detailEmployeeInfoFragment" />
         <argument
             android:name="specialtyId"
-            app:argType="string" />
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/detailEmployeeInfoFragment"

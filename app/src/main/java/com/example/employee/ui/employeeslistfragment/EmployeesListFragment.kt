@@ -1,41 +1,49 @@
 package com.example.employee.ui.employeeslistfragment
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.employee.Adapters.EmployeesAdapter
+import com.example.employee.Employee
 import com.example.employee.R
+import com.example.employee.data.Repository.Repository
+import com.example.employee.data.response.Response
 /*import com.example.employee.ui.specialtylistfragment.SpecialtyListViewModel*/
+
 import kotlinx.android.synthetic.main.employees_list_fragment.view.*
-import kotlinx.android.synthetic.main.specialty_list_fragment.view.*
 
-class EmployeesListFragment : Fragment() {
+class EmployeesListFragment : Fragment(R.layout.employees_list_fragment), EmployeesView {
 
-    companion object {
-        fun newInstance() = EmployeesListFragment()
+    val args: EmployeesListFragmentArgs by navArgs()
+    private val presenter = EmployeesListPresenter(Repository())
+    private lateinit var employeesAdapter: EmployeesAdapter
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        presenter.bind(this)
+        initView(view)
+        presenter.loadData()
     }
 
-    private lateinit var viewModel: EmployeesListViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewModel = ViewModelProvider(this).get(EmployeesListViewModel::class.java)
-        val root = inflater.inflate(R.layout.employees_list_fragment, container, false)
-      /*  viewModel.employeesInfo.observe(viewLifecycleOwner, Observer{
-            root.responseTextView.setText(viewModel.employeesInfo.value.toString())
-        })*/
-        return root
+    override fun updateView(employees: List<Response>) {
+        employeesAdapter.updateList(employees)
     }
 
-    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(EmployeesListViewModel::class.java)
-        // TODO: Use the ViewModel
-    }*/
+    private fun initView(view: View) {
+        view.employeesListRecyclerView.layoutManager = LinearLayoutManager(context)
+        val listener = object : EmployeesAdapter.Listener {
+            override fun onClickEmployee(employee: Response) {
+            }
+        }
+        employeesAdapter = EmployeesAdapter(listener)
+        view.employeesListRecyclerView.adapter = employeesAdapter
+    }
 
+    override fun onDestroyView() {
+        presenter.unbind()
+        super.onDestroyView()
+    }
 }

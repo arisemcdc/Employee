@@ -24,10 +24,16 @@ class SpecialtyListPresenter (private val repository: Repository): CoroutineScop
 
     fun loadData() {
         launch {
+            /*val data = Employee.repository.getEmployeesInfo()
+                    .response
+                    .flatMap { it.specialty }
+                    .distinctBy { it.specialtyId }*/
+
             val data = Employee.repository.getEmployeesInfo()
                     .response
                     .flatMap { it.specialty }
                     .distinctBy { it.specialtyId }
+
             withContext(Dispatchers.Main) {
                 view?.updateView(data)
             }
