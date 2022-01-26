@@ -3,6 +3,7 @@ package com.example.employee.ui.employeeslistfragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.employee.Adapters.EmployeesAdapter
@@ -37,6 +38,8 @@ class EmployeesListFragment : Fragment(R.layout.employees_list_fragment), Employ
         view.employeesListRecyclerView.layoutManager = LinearLayoutManager(context)
         val listener = object : EmployeesAdapter.Listener {
             override fun onClickEmployee(employee: Response) {
+                val action = EmployeesListFragmentDirections.actionEmployeesListFragmentToDetailEmployeeInfoFragment(employee.avatrUrl)
+                findNavController().navigate(action)
             }
         }
         employeesAdapter = EmployeesAdapter(listener)
